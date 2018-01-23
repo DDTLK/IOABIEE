@@ -22,7 +22,10 @@ export ID=$(xds-cli prj add --label="Project_hvac" --type=pm --path=/home/jenkin
 xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "qmake"
 
 xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "make"
-'''
+
+cp ~/xds-workspace/hvac/package/hvac.wgt .
+
+ls -al'''
           }
           
         }
