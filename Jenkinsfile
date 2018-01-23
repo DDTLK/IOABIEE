@@ -9,10 +9,11 @@ pipeline {
     stage('Setup') {
       steps {
         echo 'Setup project'
-        git 'https://gerrit.automotivelinux.org/gerrit/apps/hvac'
-        dir(path: 'hvac') {
-          echo 'set ID & SDK_ID'
-          sh '''
+        dir(path: '~/xds_workspace') {
+          git 'https://gerrit.automotivelinux.org/gerrit/apps/hvac'
+          dir(path: 'hvac') {
+            echo 'set ID & SDK_ID'
+            sh '''
 SDK_ID=$( xds-cli sdks ls | cut -d\' \' -f1 | tail -n1 )
 
 ID=$(xds-cli prj add --label="Project_hvac" --type=pm --path=/home/jenkins/xds-workspace/hvac --server-path=/home/devel/xds-workspace/hvac | cut -d\')\' -f1 | cut -d\' \' -f5)
@@ -22,6 +23,12 @@ xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "qmake"
 
 xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "make"
 '''
+            dir(path: 'package') {
+              archiveArtifacts(artifacts: 'hvac.wgt', onlyIfSuccessful: true)
+            }
+            
+          }
+          
         }
         
       }
