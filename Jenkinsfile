@@ -19,17 +19,32 @@ export SDK_ID=$( xds-cli sdks ls | cut -d\' \' -f1 | tail -n1 )
 export ID=$(xds-cli prj add --label="Project_hvac" --type=pm --path=/home/jenkins/xds-workspace/hvac --server-path=/home/devel/xds-workspace/hvac | cut -d\')\' -f1 | cut -d\' \' -f5)
 
 
-xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "qmake"
+echo "${ID}" > env_ID.txt
 
-xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "make"
-
-cp ~/xds-workspace/hvac/package/hvac.wgt .
-
- echo "${ID}"'''
+echo "{SDK_ID}" > en_SDK_ID.txt'''
+            stash(name: 'ID', includes: 'env_ID.txt')
+            stash(includes: 'en_SDK_ID.txt', name: 'SDK_ID')
           }
           
         }
         
+      }
+    }
+    stage('Build') {
+      steps {
+        echo 'Build ....'
+        unstash 'SDK_ID'
+        unstash 'ID'
+        sh '''ID = cat env_ID.txt
+SDK_ID = env_SDK_ID.txt
+
+echo "${ID}"
+
+xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "qmake"
+
+xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "make"
+
+cp ~/xds-workspace/hvac/package/hvac.wgt .'''
       }
     }
     stage('Publish') {
