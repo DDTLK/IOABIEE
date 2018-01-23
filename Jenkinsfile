@@ -22,6 +22,9 @@ ID=$(xds-cli prj add --label="Project_hvac" --type=pm --path=/home/jenkins/xds-w
 xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "qmake"
 
 xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "make"
+
+ls -al package
+
 '''
             dir(path: 'package') {
               archiveArtifacts(artifacts: 'hvac.wgt', onlyIfSuccessful: true)
@@ -31,13 +34,6 @@ xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "make"
           
         }
         
-      }
-    }
-    stage('Publish') {
-      steps {
-        sh '''pwd
-ls -l package/hvac.wgt '''
-        archiveArtifacts 'hvac.wgt'
       }
     }
   }
