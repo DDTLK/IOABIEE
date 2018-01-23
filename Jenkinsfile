@@ -35,7 +35,7 @@ cp ~/xds-workspace/hvac/package/hvac.wgt .
       steps {
         echo 'Publish'
         archiveArtifacts(artifacts: '~/xds_workspace/hvac/hvac.wgt', onlyIfSuccessful: true)
-        sh '"echo $ID"'
+        sh '"echo env.ID"'
       }
     }
   }
