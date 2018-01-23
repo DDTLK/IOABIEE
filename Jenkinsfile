@@ -17,6 +17,8 @@ ID=$(xds-cli prj add --label="Project_hvac" --type=pm --path=/home/jenkins/xds-w
 '''
           echo 'prj_id="$ID"'
           echo 'sdk_id="$SDK_ID"'
+          stash(name: 'ID', includes: 'ID')
+          stash(name: 'SDK_ID', includes: 'SDK_ID')
         }
         
       }
@@ -39,5 +41,12 @@ ls -l package/hvac.wgt '''
   }
   environment {
     PATH = '$PATH:/opt/AGL/xds/cli/:/opt/AGL/xds/agent/:/opt/AGL/xds/agent/gdb/:/usr/bin/:/usr/local/bin'
+  }
+  post {
+    always {
+      deleteDir()
+      
+    }
+    
   }
 }
