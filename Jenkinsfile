@@ -35,7 +35,7 @@ ls -al'''
     stage('Publish') {
       steps {
         echo 'Publish'
-        archiveArtifacts(artifacts: 'hvac.wgt', onlyIfSuccessful: true)
+        archiveArtifacts(artifacts: '~/xds_workspace/hvac/hvac.wgt', onlyIfSuccessful: true)
       }
     }
   }
