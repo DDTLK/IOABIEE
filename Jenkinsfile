@@ -12,13 +12,9 @@ pipeline {
         git 'https://gerrit.automotivelinux.org/gerrit/apps/hvac'
         dir(path: 'hvac') {
           echo 'set ID & SDK_ID'
-          sh '''SDK_ID=$( xds-cli sdks ls | cut -d\' \' -f1 | tail -n1 )
-ID=$(xds-cli prj add --label="Project_hvac" --type=pm --path=/home/jenkins/xds-workspace/hvac --server-path=/home/devel/xds-workspace/hvac | cut -d\')\' -f1 | cut -d\' \' -f5)
+          sh '''def SDK_ID=$( xds-cli sdks ls | cut -d\' \' -f1 | tail -n1 )
+def ID=$(xds-cli prj add --label="Project_hvac" --type=pm --path=/home/jenkins/xds-workspace/hvac --server-path=/home/devel/xds-workspace/hvac | cut -d\')\' -f1 | cut -d\' \' -f5)
 '''
-          echo 'prj_id=$ID'
-          echo 'sdk_id=$SDK_ID'
-          stash(name: 'ID', includes: 'ID')
-          stash(name: 'SDK_ID', includes: 'SDK_ID')
         }
         
       }
