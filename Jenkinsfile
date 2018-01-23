@@ -21,11 +21,6 @@ ID=$(xds-cli prj add --label="Project_hvac" --type=pm --path=/home/jenkins/xds-w
 xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "qmake"
 
 xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "make"
-
-
-pwd
-
-ls -l package/hvac.wgt 
 '''
         }
         
