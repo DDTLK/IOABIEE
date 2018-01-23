@@ -14,28 +14,29 @@ pipeline {
           dir(path: 'hvac') {
             echo 'set ID & SDK_ID'
             sh '''
-SDK_ID=$( xds-cli sdks ls | cut -d\' \' -f1 | tail -n1 )
+export SDK_ID=$( xds-cli sdks ls | cut -d\' \' -f1 | tail -n1 )
 
-ID=$(xds-cli prj add --label="Project_hvac" --type=pm --path=/home/jenkins/xds-workspace/hvac --server-path=/home/devel/xds-workspace/hvac | cut -d\')\' -f1 | cut -d\' \' -f5)
+export ID=$(xds-cli prj add --label="Project_hvac" --type=pm --path=/home/jenkins/xds-workspace/hvac --server-path=/home/devel/xds-workspace/hvac | cut -d\')\' -f1 | cut -d\' \' -f5)
 
 
 xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "qmake"
 
 xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "make"
-
-pwd
-
-ls .
-
 '''
-            dir(path: 'package') {
-              archiveArtifacts(artifacts: 'hvac.wgt', onlyIfSuccessful: true)
-            }
-            
           }
           
         }
         
+      }
+    }
+    stage('Publish') {
+      steps {
+        echo 'Publish'
+        dir(path: '~/xds-workspace/hvac/package') {
+          archiveArtifacts 'hvac.wgt'
+        }
+        
+        sh 'echo $ID'
       }
     }
   }
