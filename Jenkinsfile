@@ -21,7 +21,7 @@ export ID=$(xds-cli prj add --label="Project_hvac" --type=pm --path=/home/jenkin
 
 echo "${ID}" > env_ID.txt
 
-echo "{SDK_ID}" > en_SDK_ID.txt'''
+echo "${SDK_ID}" > en_SDK_ID.txt'''
             stash(name: 'ID', includes: 'env_ID.txt')
             stash(includes: 'en_SDK_ID.txt', name: 'SDK_ID')
           }
@@ -35,8 +35,8 @@ echo "{SDK_ID}" > en_SDK_ID.txt'''
         echo 'Build ....'
         unstash 'SDK_ID'
         unstash 'ID'
-        sh '''ID = cat env_ID.txt
-SDK_ID = env_SDK_ID.txt
+        sh '''ID = \'cat env_ID.txt\'
+SDK_ID = \'cat env_SDK_ID.txt\'
 
 echo "${ID}"
 
