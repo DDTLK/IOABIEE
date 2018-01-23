@@ -34,6 +34,7 @@ xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "make"
         echo 'Publish'
         dir(path: '~/xds-workspace/hvac/package') {
           archiveArtifacts 'hvac.wgt'
+          sh 'ls -al'
         }
         
         sh 'echo $ID'
