@@ -33,9 +33,10 @@ echo "${SDK_ID}" > env_SDK_ID.txt'''
     stage('Build') {
       steps {
         echo 'Build ....'
-        unstash 'SDK_ID'
-        unstash 'ID'
-        sh '''ID=$(cat env_ID.txt)
+        dir(path: '~/xds_workspace/hvac') {
+          unstash 'SDK_ID'
+          unstash 'ID'
+          sh '''ID=$(cat env_ID.txt)
 SDK_ID=$(cat env_SDK_ID.txt)
 
 xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "qmake"
@@ -43,13 +44,14 @@ xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "qmake"
 xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "make"
 
 cp ~/xds-workspace/hvac/package/hvac.wgt .'''
+        }
+        
       }
     }
     stage('Publish') {
       steps {
         echo 'Publish'
         archiveArtifacts(artifacts: '~/xds_workspace/hvac/hvac.wgt', onlyIfSuccessful: true)
-        sh ' echo "${ID}"'
       }
     }
   }
