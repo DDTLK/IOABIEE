@@ -32,7 +32,7 @@ xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "make"
     stage('Publish') {
       steps {
         echo 'Publish'
-        archiveArtifacts(artifacts: '~/xds-workspace/hvac/package/hvac.wgt', onlyIfSuccessful: true)
+        archiveArtifacts(artifacts: '$HOME/xds-workspace/hvac/package/hvac.wgt', onlyIfSuccessful: true)
       }
     }
   }
