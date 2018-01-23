@@ -35,8 +35,10 @@ echo "${SDK_ID}" > en_SDK_ID.txt'''
         echo 'Build ....'
         unstash 'SDK_ID'
         unstash 'ID'
-        sh '''ID = \'cat env_ID.txt\'
-SDK_ID = \'cat env_SDK_ID.txt\'
+        sh '''ls -al
+
+ID=$(cat env_ID.txt)
+SDK_ID=$(cat env_SDK_ID.txt)
 
 echo "${ID}"
 
