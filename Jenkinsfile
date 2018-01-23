@@ -23,7 +23,9 @@ xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "qmake"
 
 xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "make"
 
-ls -al package
+pwd
+
+ls .
 
 '''
             dir(path: 'package') {
