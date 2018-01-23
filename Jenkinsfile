@@ -24,7 +24,8 @@ xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "qmake"
 xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "make"
 
 cp ~/xds-workspace/hvac/package/hvac.wgt .
-'''
+
+ echo "${ID}"'''
           }
           
         }
@@ -35,7 +36,7 @@ cp ~/xds-workspace/hvac/package/hvac.wgt .
       steps {
         echo 'Publish'
         archiveArtifacts(artifacts: '~/xds_workspace/hvac/hvac.wgt', onlyIfSuccessful: true)
-        sh '"echo env.ID"'
+        sh ' echo "${ID}"'
       }
     }
   }
