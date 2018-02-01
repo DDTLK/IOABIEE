@@ -118,7 +118,6 @@ ID_1=$(cat env_ID_1.txt)
 SDK_ID_1=$(cat env_SDK_ID_1.txt)
 SDK_ID_1_NAME=$(cat env_SDK_ID_1_NAME.txt)
 
-sleep 1
 #Build
 xds-cli exec --id="$ID_1" --sdkid="$SDK_ID_1" -- "qmake"
 
@@ -142,7 +141,6 @@ cp ~/xds-workspace/hvac_"$SDK_ID_1_NAME"/package/hvac.wgt hvac_"$SDK_ID_1_NAME".
 ID_2=$(cat env_ID_2.txt)
 SDK_ID_2=$(cat env_SDK_ID_2.txt)
 SDK_ID_2_NAME=$(cat env_SDK_ID_2_NAME.txt)
-sleep 2
 
 #Build
 xds-cli exec --id="$ID_2" --sdkid="$SDK_ID_2" -- "qmake"
@@ -168,7 +166,6 @@ cp ~/xds-workspace/hvac_"$SDK_ID_2_NAME"/package/hvac.wgt hvac_"$SDK_ID_2_NAME".
 ID_3=$(cat env_ID_3.txt)
 SDK_ID_3=$(cat env_SDK_ID_3.txt)
 SDK_ID_3_NAME=$(cat env_SDK_ID_3_NAME.txt)
-sleep 3
 
 #Build
 xds-cli exec --id="$ID_3" --sdkid="$SDK_ID_3" -- "qmake"
@@ -195,19 +192,16 @@ cp ~/xds-workspace/hvac_"$SDK_ID_3_NAME"/package/hvac.wgt hvac_"$SDK_ID_3_NAME".
         unstash 'ID_1'
         unstash 'ID_2'
         unstash 'ID_3'
-        unstash 'ID_4'
         sh '''
 #unstash ID
 ID_1=$(cat env_ID_1.txt)
 ID_2=$(cat env_ID_2.txt)
 ID_3=$(cat env_ID_3.txt)
-ID_4=$(cat env_ID_4.txt)
 
 #remove project
 echo "yes" | xds-cli prj rm --id="${ID_1}"
 echo "yes" | xds-cli prj rm --id="${ID_2}"
 echo "yes" | xds-cli prj rm --id="${ID_3}"
-echo "yes" | xds-cli prj rm --id="${ID_4}"
 
 #remove building directory
 rm -rf $HOME/xds-workspace/hvac*'''
