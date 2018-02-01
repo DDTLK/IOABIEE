@@ -9,7 +9,8 @@ pipeline {
     stage('Setup') {
       steps {
         echo 'Setup project'
-        sh 'cd ..'
+        sh '''cd $WORKSPACE
+pwd'''
         git 'https://gerrit.automotivelinux.org/gerrit/apps/hvac'
         dir(path: 'hvac') {
           echo 'set ID & SDK_ID'
