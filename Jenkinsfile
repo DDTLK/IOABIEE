@@ -142,6 +142,7 @@ ID_1=$(cat env_ID_1.txt)
 SDK_ID_1=$(cat env_SDK_ID_1.txt)
 SDK_ID_1_NAME=$(cat env_SDK_ID_1_NAME.txt)
 
+sleep 7
 #Build
 xds-cli exec --id="$ID_1" --sdkid="$SDK_ID_1" -- "qmake"
 
