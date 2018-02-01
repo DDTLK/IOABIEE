@@ -9,8 +9,7 @@ pipeline {
     stage('Setup') {
       steps {
         echo 'Setup project'
-        sh 'printenv'
-        git '${REPOSITORY}'
+        git 'https://gerrit.automotivelinux.org/gerrit/apps/hvac'
         sh '''mkdir -p $HOME/xds-workspace/hvac/
 cp -r * $HOME/xds-workspace/hvac/'''
         echo 'set ID & SDK_ID'
@@ -59,7 +58,6 @@ rm -rf $HOME/xds-workspace/hvac'''
   }
   environment {
     PATH = '$PATH:/opt/AGL/xds/cli/:/opt/AGL/xds/agent/:/opt/AGL/xds/agent/gdb/:/usr/bin/:/usr/local/bin'
-    REPOSITORY = 'https://gerrit.automotivelinux.org/gerrit/apps/hvac'
   }
   post {
     always {
