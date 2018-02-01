@@ -72,7 +72,6 @@ SDK_ID_2_NAME=$(cat env_SDK_ID_2_NAME.txt)
 SDK_ID_3_NAME=$(cat env_SDK_ID_3_NAME.txt)
 SDK_ID_4_NAME=$(cat env_SDK_ID_4_NAME.txt)
 
-
 #Create project and set id project
 ID_1=$(xds-cli prj add --label="Project_hvac_"${SDK_ID_1_NAME}"" --type=pm --path=/home/jenkins/xds-workspace/hvac_"${SDK_ID_1_NAME}" --server-path=/home/devel/xds-workspace/hvac_"${SDK_ID_1_NAME}" | cut -d\\\')\\\' -f1 | cut -d\\\' \\\' -f5)
 ID_2=$(xds-cli prj add --label="Project_hvac_"${SDK_ID_2_NAME}"" --type=pm --path=/home/jenkins/xds-workspace/hvac_"${SDK_ID_1_NAME}" --server-path=/home/devel/xds-workspace/hvac_"${SDK_ID_2_NAME}" | cut -d\\\')\\\' -f1 | cut -d\\\' \\\' -f5)
