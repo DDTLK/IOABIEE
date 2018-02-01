@@ -49,7 +49,7 @@ cp ~/xds-workspace/hvac_"$SDK_ID_1_NAME"/package/hvac.wgt hvac_"$SDK_ID_1_NAME".
         echo 'Publish'
         unstash 'SDK_ID_1_NAME'
         sh 'SDK_ID_1_NAME=$(cat env_SDK_ID_1_NAME.txt)'
-        archiveArtifacts(artifacts: 'hvac_$SDK_ID_1_NAME.wgt', onlyIfSuccessful: true)
+        archiveArtifacts(artifacts: 'hvac_*.wgt', onlyIfSuccessful: true)
         deleteDir()
       }
     }
