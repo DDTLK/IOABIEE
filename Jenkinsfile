@@ -46,13 +46,13 @@ cp ~/xds-workspace/hvac/package/hvac.wgt .'''
     stage('Publish') {
       steps {
         echo 'Publish'
-        archiveArtifacts(artifacts: '$HOME/xds_workspace/hvac/package/hvac.wgt', onlyIfSuccessful: true)
+        archiveArtifacts(artifacts: 'hvac.wgt', onlyIfSuccessful: true)
         deleteDir()
       }
     }
     stage('Clean') {
       steps {
-        sh 'rm -rf $HOME/xds-workpsace/hvac'
+        sh 'rm -rf $HOME/xds-workspace/hvac'
       }
     }
   }
