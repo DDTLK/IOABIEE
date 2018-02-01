@@ -9,7 +9,8 @@ pipeline {
     stage('Setup') {
       steps {
         echo 'Setup project'
-        git '"${REPOSITORY}"'
+        sh 'printenv'
+        git '${REPOSITORY}'
         sh '''mkdir -p $HOME/xds-workspace/hvac/
 cp -r * $HOME/xds-workspace/hvac/'''
         echo 'set ID & SDK_ID'
