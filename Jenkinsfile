@@ -9,12 +9,11 @@ pipeline {
     stage('Setup') {
       steps {
         echo 'Setup project'
-        git 'https://gerrit.automotivelinux.org/gerrit/apps/hvac'
+        git '${REPOSITORY}'
         sh '''mkdir -p $HOME/xds-workspace/hvac/
 cp -r * $HOME/xds-workspace/hvac/'''
-        dir(path: 'hvac') {
-          echo 'set ID & SDK_ID'
-          sh '''export SDK_ID=$( xds-cli sdks ls | cut -d\' \' -f1 | tail -n1 )
+        echo 'set ID & SDK_ID'
+        sh '''export SDK_ID=$( xds-cli sdks ls | cut -d\' \' -f1 | tail -n1 )
 
 export ID=$(xds-cli prj add --label="Project_hvac" --type=pm --path=/home/jenkins/xds-workspace/hvac --server-path=/home/devel/xds-workspace/hvac | cut -d\')\' -f1 | cut -d\' \' -f5)
 
@@ -22,10 +21,8 @@ export ID=$(xds-cli prj add --label="Project_hvac" --type=pm --path=/home/jenkin
 echo "${ID}" > env_ID.txt
 
 echo "${SDK_ID}" > env_SDK_ID.txt'''
-          stash(name: 'ID', includes: 'env_ID.txt')
-          stash(includes: 'env_SDK_ID.txt', name: 'SDK_ID')
-        }
-        
+        stash(name: 'ID', includes: 'env_ID.txt')
+        stash(includes: 'env_SDK_ID.txt', name: 'SDK_ID')
       }
     }
     stage('Build') {
@@ -61,6 +58,7 @@ rm -rf $HOME/xds-workspace/hvac'''
   }
   environment {
     PATH = '$PATH:/opt/AGL/xds/cli/:/opt/AGL/xds/agent/:/opt/AGL/xds/agent/gdb/:/usr/bin/:/usr/local/bin'
+    REPOSITORY = 'https://gerrit.automotivelinux.org/gerrit/apps/hvac'
   }
   post {
     always {
