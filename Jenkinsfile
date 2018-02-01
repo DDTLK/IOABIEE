@@ -77,28 +77,100 @@ echo "${SDK_ID_4}" > env_SDK_ID_4.txt'''
       }
     }
     stage('Build') {
-      steps {
-        echo 'Build ....'
-        unstash 'SDK_ID_1'
-        unstash 'SDK_ID_1_NAME'
-        unstash 'ID_1'
-        sh '''ID_1=$(cat env_ID_1.txt)
+      parallel {
+        stage('Build SDK_ID_1') {
+          steps {
+            echo 'Build ....'
+            unstash 'SDK_ID_1'
+            unstash 'SDK_ID_1_NAME'
+            unstash 'ID_1'
+            sh '''
+
+#unstash variables
+ID_1=$(cat env_ID_1.txt)
 SDK_ID_1=$(cat env_SDK_ID_1.txt)
 SDK_ID_1_NAME=$(cat env_SDK_ID_1_NAME.txt)
 
-
+#Build
 xds-cli exec --id="$ID_1" --sdkid="$SDK_ID_1" -- "qmake"
 
 xds-cli exec --id="$ID_1" --sdkid="$SDK_ID_1" -- "make"
 
+#Copy widget
 cp ~/xds-workspace/hvac_"$SDK_ID_1_NAME"/package/hvac.wgt hvac_"$SDK_ID_1_NAME".wgt'''
+          }
+        }
+        stage('Build  SDK_ID_2') {
+          steps {
+            echo 'Build ...'
+            unstash 'SDK_ID_2'
+            unstash 'SDK_ID_2_NAME'
+            unstash 'ID_2'
+            sh '''
+
+#unstash variables
+ID_2=$(cat env_ID_2.txt)
+SDK_ID_2=$(cat env_SDK_ID_2.txt)
+SDK_ID_2_NAME=$(cat env_SDK_ID_2_NAME.txt)
+
+#Build
+xds-cli exec --id="$ID_2" --sdkid="$SDK_ID_2" -- "qmake"
+
+xds-cli exec --id="$ID_2" --sdkid="$SDK_ID_2" -- "make"
+
+#Copy widget
+cp ~/xds-workspace/hvac_"$SDK_ID_2_NAME"/package/hvac.wgt hvac_"$SDK_ID_2_NAME".wgt'''
+          }
+        }
+        stage('Build  SDK_ID_3') {
+          steps {
+            echo 'Build ...'
+            unstash 'SDK_ID_3'
+            unstash 'SDK_ID_3_NAME'
+            unstash 'ID_3'
+            sh '''
+
+#unstash variables
+ID_3=$(cat env_ID_3.txt)
+SDK_ID_3=$(cat env_SDK_ID_3.txt)
+SDK_ID_3_NAME=$(cat env_SDK_ID_3_NAME.txt)
+
+#Build
+xds-cli exec --id="$ID_3" --sdkid="$SDK_ID_3" -- "qmake"
+
+xds-cli exec --id="$ID_3" --sdkid="$SDK_ID_3" -- "make"
+
+#Copy widget
+cp ~/xds-workspace/hvac_"$SDK_ID_3_NAME"/package/hvac.wgt hvac_"$SDK_ID_3_NAME".wgt'''
+          }
+        }
+        stage('Build  SDK_ID_4') {
+          steps {
+            echo 'Build ...'
+            unstash 'SDK_ID_4'
+            unstash 'SDK_ID_4_NAME'
+            unstash 'ID_4'
+            sh '''
+
+#unstash variables
+ID_4=$(cat env_ID_4.txt)
+SDK_ID_4=$(cat env_SDK_ID_4.txt)
+SDK_ID_4_NAME=$(cat env_SDK_ID_4_NAME.txt)
+
+#Build
+xds-cli exec --id="$ID_4" --sdkid="$SDK_ID_4" -- "qmake"
+
+xds-cli exec --id="$ID_4" --sdkid="$SDK_ID_4" -- "make"
+
+#Copy widget
+cp ~/xds-workspace/hvac_"$SDK_ID_4_NAME"/package/hvac.wgt hvac_"$SDK_ID_4_NAME".wgt'''
+          }
+        }
       }
     }
     stage('Publish') {
       steps {
         echo 'Publish'
-        unstash 'SDK_ID_1_NAME'
-        sh 'SDK_ID_1_NAME=$(cat env_SDK_ID_1_NAME.txt)'
         archiveArtifacts(artifacts: 'hvac_*.wgt', onlyIfSuccessful: true)
         deleteDir()
       }
@@ -106,10 +178,23 @@ cp ~/xds-workspace/hvac_"$SDK_ID_1_NAME"/package/hvac.wgt hvac_"$SDK_ID_1_NAME".
     stage('Clean') {
       steps {
         unstash 'ID_1'
-        sh '''ID_1=$(cat env_ID_1.txt)
+        unstash 'ID_2'
+        unstash 'ID_3'
+        unstash 'ID_4'
+        sh '''
+#unstash ID
+ID_1=$(cat env_ID_1.txt)
+ID_2=$(cat env_ID_2.txt)
+ID_3=$(cat env_ID_3.txt)
+ID_4=$(cat env_ID_4.txt)
 
-
+#remove project
 echo "yes" | xds-cli prj rm --id="${ID_1}"
+echo "yes" | xds-cli prj rm --id="${ID_2}"
+echo "yes" | xds-cli prj rm --id="${ID_3}"
+echo "yes" | xds-cli prj rm --id="${ID_4}"
+
+#remove building directory
 rm -rf $HOME/xds-workspace/hvac*'''
       }
     }
