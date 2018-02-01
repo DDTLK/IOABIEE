@@ -39,18 +39,6 @@ cp -r * $HOME/xds-workspace/hvac_"${SDK_ID_2_NAME}"/
 cp -r * $HOME/xds-workspace/hvac_"${SDK_ID_3_NAME}"/
 cp -r * $HOME/xds-workspace/hvac_"${SDK_ID_4_NAME}"/
 
-#Create project and set id project
-ID_1=$(xds-cli prj add --label="Project_hvac_"${SDK_ID_1_NAME}"" --type=pm --path=/home/jenkins/xds-workspace/hvac_"${SDK_ID_1_NAME}" --server-path=/home/devel/xds-workspace/hvac_"${SDK_ID_1_NAME}" | cut -d\')\' -f1 | cut -d\' \' -f5)
-ID_2=$(xds-cli prj add --label="Project_hvac_"${SDK_ID_2_NAME}"" --type=pm --path=/home/jenkins/xds-workspace/hvac_"${SDK_ID_1_NAME}" --server-path=/home/devel/xds-workspace/hvac_"${SDK_ID_2_NAME}" | cut -d\')\' -f1 | cut -d\' \' -f5)
-ID_3=$(xds-cli prj add --label="Project_hvac_"${SDK_ID_3_NAME}"" --type=pm --path=/home/jenkins/xds-workspace/hvac_"${SDK_ID_1_NAME}" --server-path=/home/devel/xds-workspace/hvac_"${SDK_ID_3_NAME}" | cut -d\')\' -f1 | cut -d\' \' -f5)
-ID_4=$(xds-cli prj add --label="Project_hvac_"${SDK_ID_4_NAME}"" --type=pm --path=/home/jenkins/xds-workspace/hvac_"${SDK_ID_1_NAME}" --server-path=/home/devel/xds-workspace/hvac_"${SDK_ID_4_NAME}" | cut -d\')\' -f1 | cut -d\' \' -f5)
-
-#save ID for futur stage
-echo "${ID_1}" > env_ID_1.txt
-echo "${ID_2}" > env_ID_2.txt
-echo "${ID_3}" > env_ID_3.txt
-echo "${ID_4}" > env_ID_4.txt
-
 #save SDK_ID for futur stage
 echo "${SDK_ID_1_NAME}" > env_SDK_ID_1_NAME.txt
 echo "${SDK_ID_2_NAME}" > env_SDK_ID_2_NAME.txt
@@ -62,10 +50,6 @@ echo "${SDK_ID_1}" > env_SDK_ID_1.txt
 echo "${SDK_ID_2}" > env_SDK_ID_2.txt
 echo "${SDK_ID_3}" > env_SDK_ID_3.txt
 echo "${SDK_ID_4}" > env_SDK_ID_4.txt'''
-        stash(name: 'ID_1', includes: 'env_ID_1.txt')
-        stash(name: 'ID_2', includes: 'env_ID_2.txt')
-        stash(name: 'ID_3', includes: 'env_ID_3.txt')
-        stash(name: 'ID_4', includes: 'env_ID_4.txt')
         stash(includes: 'env_SDK_ID_1.txt', name: 'SDK_ID_1')
         stash(includes: 'env_SDK_ID_2.txt', name: 'SDK_ID_2')
         stash(includes: 'env_SDK_ID_3.txt', name: 'SDK_ID_3')
@@ -74,6 +58,36 @@ echo "${SDK_ID_4}" > env_SDK_ID_4.txt'''
         stash(includes: 'env_SDK_ID_2_NAME.txt', name: 'SDK_ID_2_NAME')
         stash(includes: 'env_SDK_ID_3_NAME.txt', name: 'SDK_ID_3_NAME')
         stash(includes: 'env_SDK_ID_4_NAME.txt', name: 'SDK_ID_4_NAME')
+      }
+    }
+    stage('Create project') {
+      steps {
+        unstash 'SDK_ID_1_NAME'
+        unstash 'SDK_ID_2_NAME'
+        unstash 'SDK_ID_3_NAME'
+        unstash 'SDK_ID_4_NAME'
+        sh '''
+SDK_ID_1_NAME=$(cat env_SDK_ID_1_NAME.txt)
+SDK_ID_2_NAME=$(cat env_SDK_ID_2_NAME.txt)
+SDK_ID_3_NAME=$(cat env_SDK_ID_3_NAME.txt)
+SDK_ID_4_NAME=$(cat env_SDK_ID_4_NAME.txt)
+
+
+#Create project and set id project
+ID_1=$(xds-cli prj add --label="Project_hvac_"${SDK_ID_1_NAME}"" --type=pm --path=/home/jenkins/xds-workspace/hvac_"${SDK_ID_1_NAME}" --server-path=/home/devel/xds-workspace/hvac_"${SDK_ID_1_NAME}" | cut -d\\\')\\\' -f1 | cut -d\\\' \\\' -f5)
+ID_2=$(xds-cli prj add --label="Project_hvac_"${SDK_ID_2_NAME}"" --type=pm --path=/home/jenkins/xds-workspace/hvac_"${SDK_ID_1_NAME}" --server-path=/home/devel/xds-workspace/hvac_"${SDK_ID_2_NAME}" | cut -d\\\')\\\' -f1 | cut -d\\\' \\\' -f5)
+ID_3=$(xds-cli prj add --label="Project_hvac_"${SDK_ID_3_NAME}"" --type=pm --path=/home/jenkins/xds-workspace/hvac_"${SDK_ID_1_NAME}" --server-path=/home/devel/xds-workspace/hvac_"${SDK_ID_3_NAME}" | cut -d\\\')\\\' -f1 | cut -d\\\' \\\' -f5)
+ID_4=$(xds-cli prj add --label="Project_hvac_"${SDK_ID_4_NAME}"" --type=pm --path=/home/jenkins/xds-workspace/hvac_"${SDK_ID_1_NAME}" --server-path=/home/devel/xds-workspace/hvac_"${SDK_ID_4_NAME}" | cut -d\\\')\\\' -f1 | cut -d\\\' \\\' -f5)
+
+#save ID for futur stage
+echo "${ID_1}" > env_ID_1.txt
+echo "${ID_2}" > env_ID_2.txt
+echo "${ID_3}" > env_ID_3.txt
+echo "${ID_4}" > env_ID_4.txt'''
+        stash(name: 'ID_1', includes: 'env_ID_1.txt')
+        stash(name: 'ID_2', includes: 'env_ID_2.txt')
+        stash(name: 'ID_3', includes: 'env_ID_3.txt')
+        stash(name: 'ID_4', includes: 'env_ID_4.txt')
       }
     }
     stage('Build') {
