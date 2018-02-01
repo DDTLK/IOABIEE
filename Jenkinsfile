@@ -142,7 +142,7 @@ ID_1=$(cat env_ID_1.txt)
 SDK_ID_1=$(cat env_SDK_ID_1.txt)
 SDK_ID_1_NAME=$(cat env_SDK_ID_1_NAME.txt)
 
-sleep 3
+sleep 1
 #Build
 xds-cli exec --id="$ID_1" --sdkid="$SDK_ID_1" -- "qmake"
 
@@ -166,7 +166,7 @@ cp ~/xds-workspace/hvac_"$SDK_ID_1_NAME"/package/hvac.wgt hvac_"$SDK_ID_1_NAME".
 ID_2=$(cat env_ID_2.txt)
 SDK_ID_2=$(cat env_SDK_ID_2.txt)
 SDK_ID_2_NAME=$(cat env_SDK_ID_2_NAME.txt)
-sleep 3
+sleep 2
 
 #Build
 xds-cli exec --id="$ID_2" --sdkid="$SDK_ID_2" -- "qmake"
@@ -217,7 +217,7 @@ cp ~/xds-workspace/hvac_"$SDK_ID_3_NAME"/package/hvac.wgt hvac_"$SDK_ID_3_NAME".
 ID_4=$(cat env_ID_4.txt)
 SDK_ID_4=$(cat env_SDK_ID_4.txt)
 SDK_ID_4_NAME=$(cat env_SDK_ID_4_NAME.txt)
-sleep 3
+sleep 4
 
 #Build
 xds-cli exec --id="$ID_4" --sdkid="$SDK_ID_4" -- "qmake"
