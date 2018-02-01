@@ -49,6 +49,11 @@ cp ~/xds-workspace/hvac/package/hvac.wgt .'''
         archiveArtifacts(artifacts: '~/xds_workspace/hvac/hvac.wgt', onlyIfSuccessful: true)
       }
     }
+    stage('Clean') {
+      steps {
+        sh 'rm -rf $HOME/xds-workpsace/hvac'
+      }
+    }
   }
   environment {
     PATH = '$PATH:/opt/AGL/xds/cli/:/opt/AGL/xds/agent/:/opt/AGL/xds/agent/gdb/:/usr/bin/:/usr/local/bin'
