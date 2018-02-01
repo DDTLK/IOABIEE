@@ -41,21 +41,21 @@ cp -r * $HOME/xds-workspace/hvac_"${SDK_ID_4_NAME}"/
 
 #Create project and set id project
 ID_1=$(xds-cli prj add --label="Project_hvac_"${SDK_ID_1_NAME}"" --type=pm --path=/home/jenkins/xds-workspace/hvac_"${SDK_ID_1_NAME}" --server-path=/home/devel/xds-workspace/hvac_"${SDK_ID_1_NAME}" | cut -d\')\' -f1 | cut -d\' \' -f5)
-ID_2=$(xds-cli prj add --label="Project_hvac_"${SDK_ID_2_NAME}"" --type=pm --path=/home/jenkins/xds-workspace/hvac_"${SDK_ID_1_NAME}" --server-path=/home/devel/xds-workspace/hvac_"${SDK_ID_1_NAME}" | cut -d\')\' -f1 | cut -d\' \' -f5)
-ID_3=$(xds-cli prj add --label="Project_hvac_"${SDK_ID_3_NAME}"" --type=pm --path=/home/jenkins/xds-workspace/hvac_"${SDK_ID_1_NAME}" --server-path=/home/devel/xds-workspace/hvac_"${SDK_ID_1_NAME}" | cut -d\')\' -f1 | cut -d\' \' -f5)
-ID_4=$(xds-cli prj add --label="Project_hvac_"${SDK_ID_4_NAME}"" --type=pm --path=/home/jenkins/xds-workspace/hvac_"${SDK_ID_1_NAME}" --server-path=/home/devel/xds-workspace/hvac_"${SDK_ID_1_NAME}" | cut -d\')\' -f1 | cut -d\' \' -f5)
+ID_2=$(xds-cli prj add --label="Project_hvac_"${SDK_ID_2_NAME}"" --type=pm --path=/home/jenkins/xds-workspace/hvac_"${SDK_ID_1_NAME}" --server-path=/home/devel/xds-workspace/hvac_"${SDK_ID_2_NAME}" | cut -d\')\' -f1 | cut -d\' \' -f5)
+ID_3=$(xds-cli prj add --label="Project_hvac_"${SDK_ID_3_NAME}"" --type=pm --path=/home/jenkins/xds-workspace/hvac_"${SDK_ID_1_NAME}" --server-path=/home/devel/xds-workspace/hvac_"${SDK_ID_3_NAME}" | cut -d\')\' -f1 | cut -d\' \' -f5)
+ID_4=$(xds-cli prj add --label="Project_hvac_"${SDK_ID_4_NAME}"" --type=pm --path=/home/jenkins/xds-workspace/hvac_"${SDK_ID_1_NAME}" --server-path=/home/devel/xds-workspace/hvac_"${SDK_ID_4_NAME}" | cut -d\')\' -f1 | cut -d\' \' -f5)
 
 #save ID for futur stage
 echo "${ID_1}" > env_ID_1.txt
-echo "${ID_2}" > env_ID_1.txt
-echo "${ID_3}" > env_ID_1.txt
-echo "${ID_4}" > env_ID_1.txt
+echo "${ID_2}" > env_ID_2.txt
+echo "${ID_3}" > env_ID_3.txt
+echo "${ID_4}" > env_ID_4.txt
 
 #save SDK_ID for futur stage
 echo "${SDK_ID_1_NAME}" > env_SDK_ID_1_NAME.txt
-echo "${SDK_ID_2_NAME}" > env_SDK_ID_1_NAME.txt
-echo "${SDK_ID_3_NAME}" > env_SDK_ID_1_NAME.txt
-echo "${SDK_ID_4_NAME}" > env_SDK_ID_1_NAME.txt
+echo "${SDK_ID_2_NAME}" > env_SDK_ID_2_NAME.txt
+echo "${SDK_ID_3_NAME}" > env_SDK_ID_3_NAME.txt
+echo "${SDK_ID_4_NAME}" > env_SDK_ID_4_NAME.txt
 
 #save SDK_ID_NAME for futur stage
 echo "${SDK_ID_1}" > env_SDK_ID_1.txt
