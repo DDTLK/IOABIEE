@@ -10,49 +10,54 @@ pipeline {
       steps {
         echo 'Setup project'
         git 'https://gerrit.automotivelinux.org/gerrit/apps/hvac'
-        sh '''mkdir -p $HOME/xds-workspace/hvac/
-cp -r * $HOME/xds-workspace/hvac/'''
+        sh '''export SDK_ID_1=$( xds-cli sdks ls | cut -d\' \' -f1 | tail -n1 )
+SDK_ID_1_NAME=$(xds-cli sdks ls | grep $SDK_ID_1 | cut -d\' \' -f5)
+mkdir -p $HOME/xds-workspace/hvac_"${SDK_ID_1_NAME}"/
+cp -r * $HOME/xds-workspace/hvac_"${SDK_ID_1_NAME}"/'''
         echo 'set ID & SDK_ID'
-        sh '''export SDK_ID=$( xds-cli sdks ls | cut -d\' \' -f1 | tail -n1 )
+        sh '''
 
-export ID=$(xds-cli prj add --label="Project_hvac" --type=pm --path=/home/jenkins/xds-workspace/hvac --server-path=/home/devel/xds-workspace/hvac | cut -d\')\' -f1 | cut -d\' \' -f5)
+export ID_1=$(xds-cli prj add --label="Project_hvac_"${SDK_ID_1_NAME}"" --type=pm --path=/home/jenkins/xds-workspace/hvac_"${SDK_ID_1_NAME}" --server-path=/home/devel/xds-workspace/hvac_"${SDK_ID_1_NAME}" | cut -d\')\' -f1 | cut -d\' \' -f5)
 
 
 echo "${ID}" > env_ID.txt
 
 echo "${SDK_ID}" > env_SDK_ID.txt'''
-        stash(name: 'ID', includes: 'env_ID.txt')
-        stash(includes: 'env_SDK_ID.txt', name: 'SDK_ID')
+        stash(name: 'ID_1', includes: 'env_ID_1.txt')
+        stash(includes: 'env_SDK_ID_1.txt', name: 'SDK_ID_1')
+        stash(includes: 'env_SDK_ID_1_NAME.txt', name: 'SDK_ID_1_NAME')
       }
     }
     stage('Build') {
       steps {
         echo 'Build ....'
-        unstash 'SDK_ID'
-        unstash 'ID'
-        sh '''ID=$(cat env_ID.txt)
-SDK_ID=$(cat env_SDK_ID.txt)
+        unstash 'SDK_ID_1'
+        unstash 'SDK_ID_1_NAME'
+        unstash 'ID_1'
+        sh '''ID_1=$(cat env_ID_1.txt)
+SDK_ID_1=$(cat env_SDK_ID_1.txt)
 
-xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "qmake"
+xds-cli exec --id="$ID_1" --sdkid="$SDK_ID_1" -- "qmake"
 
-xds-cli exec --id="$ID" --sdkid="$SDK_ID" -- "make"
+xds-cli exec --id="$ID_1" --sdkid="$SDK_ID_1" -- "make"
 
-cp ~/xds-workspace/hvac/package/hvac.wgt .'''
+cp ~/xds-workspace/hvac_"$SDK_ID_1"/package/hvac.wgt hvac_"$SDK_ID_1".wgt'''
       }
     }
     stage('Publish') {
       steps {
         echo 'Publish'
-        archiveArtifacts(artifacts: 'hvac.wgt', onlyIfSuccessful: true)
+        unstash 'SDK_ID_1_NAME'
+        archiveArtifacts(artifacts: 'hvac_"$SDK_ID_1".wgt', onlyIfSuccessful: true)
         deleteDir()
       }
     }
     stage('Clean') {
       steps {
-        unstash 'ID'
-        sh '''ID=$(cat env_ID.txt)
-echo "yes" | xds-cli prj rm --id="${ID}"
-rm -rf $HOME/xds-workspace/hvac'''
+        unstash 'ID_1'
+        sh '''ID_1=$(cat env_ID_1.txt)
+echo "yes" | xds-cli prj rm --id="${ID_1}"
+rm -rf $HOME/xds-workspace/hvac*'''
       }
     }
   }
