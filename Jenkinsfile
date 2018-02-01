@@ -137,7 +137,6 @@ echo "${ID_4}" > env_ID_4.txt'''
             unstash 'ID_1'
             lock(resource: 'server') {
               sh '''
-
 #unstash variables
 ID_1=$(cat env_ID_1.txt)
 SDK_ID_1=$(cat env_SDK_ID_1.txt)
