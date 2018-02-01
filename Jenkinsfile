@@ -12,10 +12,7 @@ pipeline {
         git 'https://gerrit.automotivelinux.org/gerrit/apps/hvac'
         sh '''
 #list sdks id install
-SDKS_LIST=$( xds-cli sdks ls | cut -d\' \' -f1 | tail -n1 )
-
-#list sdks name install
-SDKS_LIST_NAME=$(xds-cli sdks ls | grep $SDK_ID_1 | cut -d\' \' -f5)
+SDKS_LIST=$( xds-cli sdks ls | cut -d\' \' -f1 )
 
 #set the ID variables
 SDK_ID_1=$( echo $SDKS_LIST | cut -d \' \' -f3)
@@ -62,9 +59,9 @@ echo "${SDK_ID_4_NAME}" > env_SDK_ID_1_NAME.txt
 
 #save SDK_ID_NAME for futur stage
 echo "${SDK_ID_1}" > env_SDK_ID_1.txt
-echo "${SDK_ID_2}" > env_SDK_ID_1.txt
-echo "${SDK_ID_3}" > env_SDK_ID_1.txt
-echo "${SDK_ID_4}" > env_SDK_ID_1.txt'''
+echo "${SDK_ID_2}" > env_SDK_ID_2.txt
+echo "${SDK_ID_3}" > env_SDK_ID_3.txt
+echo "${SDK_ID_4}" > env_SDK_ID_4.txt'''
         stash(name: 'ID_1', includes: 'env_ID_1.txt')
         stash(name: 'ID_2', includes: 'env_ID_2.txt')
         stash(name: 'ID_3', includes: 'env_ID_3.txt')
