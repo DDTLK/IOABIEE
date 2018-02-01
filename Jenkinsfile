@@ -10,7 +10,7 @@ pipeline {
       steps {
         echo 'Setup project'
         git 'https://gerrit.automotivelinux.org/gerrit/apps/hvac'
-        sh '''
+        sh '''mkdir -p $HOME/xds-workspace/hvac/
 cp -r * $HOME/xds-workspace/hvac/'''
         dir(path: 'hvac') {
           echo 'set ID & SDK_ID'
