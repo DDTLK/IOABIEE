@@ -24,6 +24,7 @@ echo "${SDK_ID}" > env_SDK_ID.txt'''
           stash(includes: 'env_SDK_ID.txt', name: 'SDK_ID')
         }
         
+        sh 'cp hvac $HOME/xds-workspace/'
       }
     }
     stage('Build') {
