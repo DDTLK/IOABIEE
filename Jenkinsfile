@@ -10,7 +10,9 @@ pipeline {
       steps {
         echo 'Setup project'
         git 'https://gerrit.automotivelinux.org/gerrit/apps/hvac'
-        sh 'cp -r hvac $HOME/xds-workspace/'
+        sh '''pwd
+ls
+cp -r hvac $HOME/xds-workspace/'''
         dir(path: 'hvac') {
           echo 'set ID & SDK_ID'
           sh '''export SDK_ID=$( xds-cli sdks ls | cut -d\' \' -f1 | tail -n1 )
