@@ -13,9 +13,7 @@ pipeline {
         sh '''export SDK_ID_1=$( xds-cli sdks ls | cut -d\' \' -f1 | tail -n1 )
 SDK_ID_1_NAME=$(xds-cli sdks ls | grep $SDK_ID_1 | cut -d\' \' -f5)
 mkdir -p $HOME/xds-workspace/hvac_"${SDK_ID_1_NAME}"/
-cp -r * $HOME/xds-workspace/hvac_"${SDK_ID_1_NAME}"/'''
-        echo 'set ID & SDK_ID'
-        sh '''
+cp -r * $HOME/xds-workspace/hvac_"${SDK_ID_1_NAME}"/
 
 export ID_1=$(xds-cli prj add --label="Project_hvac_"${SDK_ID_1_NAME}"" --type=pm --path=/home/jenkins/xds-workspace/hvac_"${SDK_ID_1_NAME}" --server-path=/home/devel/xds-workspace/hvac_"${SDK_ID_1_NAME}" | cut -d\')\' -f1 | cut -d\' \' -f5)
 
