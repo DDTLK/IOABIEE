@@ -9,14 +9,10 @@ pipeline {
     stage('Setup') {
       steps {
         echo 'Setup project'
-        sh '''cd $WORKSPACE
-pwd'''
         git 'https://gerrit.automotivelinux.org/gerrit/apps/hvac'
         dir(path: 'hvac') {
           echo 'set ID & SDK_ID'
-          sh '''
-pwd
-export SDK_ID=$( xds-cli sdks ls | cut -d\' \' -f1 | tail -n1 )
+          sh '''export SDK_ID=$( xds-cli sdks ls | cut -d\' \' -f1 | tail -n1 )
 
 export ID=$(xds-cli prj add --label="Project_hvac" --type=pm --path=/home/jenkins/xds-workspace/hvac --server-path=/home/devel/xds-workspace/hvac | cut -d\')\' -f1 | cut -d\' \' -f5)
 
