@@ -135,7 +135,8 @@ echo "${ID_4}" > env_ID_4.txt'''
             unstash 'SDK_ID_1'
             unstash 'SDK_ID_1_NAME'
             unstash 'ID_1'
-            sh '''
+            lock(resource: 'server') {
+              sh '''
 
 #unstash variables
 ID_1=$(cat env_ID_1.txt)
@@ -149,6 +150,8 @@ xds-cli exec --id="$ID_1" --sdkid="$SDK_ID_1" -- "make"
 
 #Copy widget
 cp ~/xds-workspace/hvac_"$SDK_ID_1_NAME"/package/hvac.wgt hvac_"$SDK_ID_1_NAME".wgt'''
+            }
+            
           }
         }
         stage('Build  SDK_ID_2') {
@@ -157,8 +160,8 @@ cp ~/xds-workspace/hvac_"$SDK_ID_1_NAME"/package/hvac.wgt hvac_"$SDK_ID_1_NAME".
             unstash 'SDK_ID_2'
             unstash 'SDK_ID_2_NAME'
             unstash 'ID_2'
-            sh '''
-
+            lock(resource: 'server') {
+              sh '''
 #unstash variables
 ID_2=$(cat env_ID_2.txt)
 SDK_ID_2=$(cat env_SDK_ID_2.txt)
@@ -171,6 +174,8 @@ xds-cli exec --id="$ID_2" --sdkid="$SDK_ID_2" -- "make"
 
 #Copy widget
 cp ~/xds-workspace/hvac_"$SDK_ID_2_NAME"/package/hvac.wgt hvac_"$SDK_ID_2_NAME".wgt'''
+            }
+            
           }
         }
         stage('Build  SDK_ID_3') {
@@ -179,7 +184,8 @@ cp ~/xds-workspace/hvac_"$SDK_ID_2_NAME"/package/hvac.wgt hvac_"$SDK_ID_2_NAME".
             unstash 'SDK_ID_3'
             unstash 'SDK_ID_3_NAME'
             unstash 'ID_3'
-            sh '''
+            lock(resource: 'server') {
+              sh '''
 
 #unstash variables
 ID_3=$(cat env_ID_3.txt)
@@ -193,6 +199,8 @@ xds-cli exec --id="$ID_3" --sdkid="$SDK_ID_3" -- "make"
 
 #Copy widget
 cp ~/xds-workspace/hvac_"$SDK_ID_3_NAME"/package/hvac.wgt hvac_"$SDK_ID_3_NAME".wgt'''
+            }
+            
           }
         }
         stage('Build  SDK_ID_4') {
@@ -201,8 +209,8 @@ cp ~/xds-workspace/hvac_"$SDK_ID_3_NAME"/package/hvac.wgt hvac_"$SDK_ID_3_NAME".
             unstash 'SDK_ID_4'
             unstash 'SDK_ID_4_NAME'
             unstash 'ID_4'
-            sh '''
-
+            lock(resource: 'server') {
+              sh '''
 #unstash variables
 ID_4=$(cat env_ID_4.txt)
 SDK_ID_4=$(cat env_SDK_ID_4.txt)
@@ -215,6 +223,8 @@ xds-cli exec --id="$ID_4" --sdkid="$SDK_ID_4" -- "make"
 
 #Copy widget
 cp ~/xds-workspace/hvac_"$SDK_ID_4_NAME"/package/hvac.wgt hvac_"$SDK_ID_4_NAME".wgt'''
+            }
+            
           }
         }
       }
