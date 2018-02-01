@@ -20,9 +20,9 @@ cp -r * $HOME/xds-workspace/hvac_"${SDK_ID_1_NAME}"/'''
 export ID_1=$(xds-cli prj add --label="Project_hvac_"${SDK_ID_1_NAME}"" --type=pm --path=/home/jenkins/xds-workspace/hvac_"${SDK_ID_1_NAME}" --server-path=/home/devel/xds-workspace/hvac_"${SDK_ID_1_NAME}" | cut -d\')\' -f1 | cut -d\' \' -f5)
 
 
-echo "${ID}" > env_ID.txt
-
-echo "${SDK_ID}" > env_SDK_ID.txt'''
+echo "${ID_1}" > env_ID_1.txt
+echo "${SDK_ID_1_NAME}" > env_SDK_ID_1_NAME.txt
+echo "${SDK_ID_1}" > env_SDK_ID_1.txt'''
         stash(name: 'ID_1', includes: 'env_ID_1.txt')
         stash(includes: 'env_SDK_ID_1.txt', name: 'SDK_ID_1')
         stash(includes: 'env_SDK_ID_1_NAME.txt', name: 'SDK_ID_1_NAME')
@@ -36,18 +36,21 @@ echo "${SDK_ID}" > env_SDK_ID.txt'''
         unstash 'ID_1'
         sh '''ID_1=$(cat env_ID_1.txt)
 SDK_ID_1=$(cat env_SDK_ID_1.txt)
+SDK_ID_1_NAME=$(cat env_SDK_ID_1_NAME.txt)
+
 
 xds-cli exec --id="$ID_1" --sdkid="$SDK_ID_1" -- "qmake"
 
 xds-cli exec --id="$ID_1" --sdkid="$SDK_ID_1" -- "make"
 
-cp ~/xds-workspace/hvac_"$SDK_ID_1"/package/hvac.wgt hvac_"$SDK_ID_1".wgt'''
+cp ~/xds-workspace/hvac_"$SDK_ID_1_NAME"/package/hvac.wgt hvac_"$SDK_ID_1_NAME".wgt'''
       }
     }
     stage('Publish') {
       steps {
         echo 'Publish'
         unstash 'SDK_ID_1_NAME'
+        sh 'SDK_ID_1_NAME=$(cat env_SDK_ID_1_NAME.txt)'
         archiveArtifacts(artifacts: 'hvac_"$SDK_ID_1".wgt', onlyIfSuccessful: true)
         deleteDir()
       }
@@ -56,6 +59,8 @@ cp ~/xds-workspace/hvac_"$SDK_ID_1"/package/hvac.wgt hvac_"$SDK_ID_1".wgt'''
       steps {
         unstash 'ID_1'
         sh '''ID_1=$(cat env_ID_1.txt)
+
+
 echo "yes" | xds-cli prj rm --id="${ID_1}"
 rm -rf $HOME/xds-workspace/hvac*'''
       }
