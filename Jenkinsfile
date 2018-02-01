@@ -52,7 +52,10 @@ cp ~/xds-workspace/hvac/package/hvac.wgt .'''
     }
     stage('Clean') {
       steps {
-        sh 'rm -rf $HOME/xds-workspace/hvac'
+        sh '''ID=$(cat env_ID.txt)
+xds-cli prj rm --id="${ID}"
+rm -rf $HOME/xds-workspace/hvac'''
+        unstash 'ID'
       }
     }
   }
