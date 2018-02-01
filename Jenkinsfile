@@ -10,6 +10,7 @@ pipeline {
       steps {
         echo 'Setup project'
         dir(path: '~/xds_workspace') {
+          sh 'pwd'
           git 'https://gerrit.automotivelinux.org/gerrit/apps/hvac'
           dir(path: 'hvac') {
             echo 'set ID & SDK_ID'
